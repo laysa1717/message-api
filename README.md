@@ -28,6 +28,8 @@ Features include:
 
 The project follows the principles of **Clean Architecture**, which emphasizes separation of concerns and independence of frameworks, UI, and databases. This architecture helps in maintaining a scalable and testable codebase.
 
+<img width="1142" height="845" alt="image" src="https://github.com/user-attachments/assets/31a38039-0c9b-45a6-b13c-c25cdd359691" />
+
 ## Setup ⚙️
 
 1. **Install Dependencies**
