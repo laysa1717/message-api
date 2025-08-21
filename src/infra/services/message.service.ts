@@ -18,4 +18,8 @@ export class MessageService {
     async getMessageSender(senderMessage: string) {
         return await this.repository.findBySender(senderMessage);
     }
+
+    async updateMessageStatus(messageId: string, status: string) {
+        return await this.repository.updateStatus(messageId, status);
+    }
 }

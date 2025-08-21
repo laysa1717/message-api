@@ -37,8 +37,12 @@ export class MessageController {
     return this.messageUsecase.getMessageRangeDate();
   }
 
-  @Patch()
-  updateStatusMessage(): string {
-    return this.messageUsecase.updateStatusMessage();
+  @Patch('messageId/:messageId/status/:status')
+  @UsePipes(new RequiredFieldsValidationPipe(['messageId', 'status']))
+  updateStatusMessage(
+    @Param('messageId') messageId: string,
+    @Param('status') status: string
+  ){
+    return this.messageUsecase.updateStatusMessage(messageId, status);
   }
 }

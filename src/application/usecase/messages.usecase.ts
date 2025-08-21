@@ -28,7 +28,7 @@ export class MessageUseCase {
         );
         try {
             await this.serviceMessage.create(messagePayload);
-            return { success: true, message: 'Message created successfully', id: messageId, status: 201 };
+            return { success: true, message: 'Message created successfully', id: messageId, status: HttpStatus.CREATED };
         } catch (error) {
             if (error instanceof AlreadyExistsError) {
                 throw new HttpException({
@@ -74,7 +74,7 @@ export class MessageUseCase {
             if (results.length === 0) {
                 throw new DomainError('No messages found for the sender.', { senderMessage });
             }
-            return { success: true, data: results, status: 200 };
+            return { success: true, data: results, status: HttpStatus.OK };
         } catch (error) {
             if (error instanceof DomainError) {
                 throw new HttpException({
@@ -95,7 +95,27 @@ export class MessageUseCase {
         return 'range date'
     }
 
-    updateStatusMessage(){
-        return 'sender'
+    async updateStatusMessage(messageId: string, status: string) {
+        try {
+            await this.serviceMessage.updateMessageStatus(messageId, status);
+            return {    
+                success: true, 
+                message: 'Message status updated successfully.', 
+                status: HttpStatus.OK 
+            };
+        } catch (error) {
+            if (error instanceof DomainError) {
+                throw new HttpException({
+                    statusCode: HttpStatus.NOT_FOUND,
+                    message: error.message,
+                    details: error.details,
+                }, HttpStatus.NOT_FOUND);
+            }
+            throw new HttpException({
+                statusCode: HttpStatus.BAD_REQUEST,
+                message: 'Failed to update message status.',
+                details: { cause: error.message },
+            }, HttpStatus.BAD_REQUEST);
+        }
     }
 }
