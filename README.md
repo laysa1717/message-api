@@ -1,19 +1,34 @@
-# Message API
+# Message API - Itaú 🧡
 
+## Description 📄
 
+This microservice is a REST API for a messaging service where you can save messages, change their delivery status, and retrieve messages by ID, sender, and date range. The service integrates with DynamoDB (AWS's NoSQL database) to store information.
 
-## Prerequisites
+The main goal of the service is to adhere to NestJS best practices, allowing for code and architecture analysis. Although it's a simple project, the idea is to develop a service with clean code, enabling easy maintenance and scalability.
+
+In this microservice, you can analyze:
+- Best practices ✅
+- Code organization 📚
+- Use of DTOs and validations 🛡️
+- Scalable architecture 🏗️
+
+Features include:
+- Integration with DynamoDB 🔗
+- Architectural design 🏛️
+- Automated tests 🧪
+
+## Prerequisites 📋
 
 - **Node.js**: Ensure you have Node.js version 19 or above installed.
 - **NestJS**: Use the version specified in the project's `package.json`.
 - **Docker**: Make sure Docker is installed and running on your machine.
 - **AWS CLI**: Install AWS CLI and configure it for local use with LocalStack.
 
-## Architecture
+## Architecture 🏛️
 
 The project follows the principles of **Clean Architecture**, which emphasizes separation of concerns and independence of frameworks, UI, and databases. This architecture helps in maintaining a scalable and testable codebase.
 
-## Setup
+## Setup ⚙️
 
 1. **Install Dependencies**
 
@@ -84,3 +99,17 @@ The project follows the principles of **Clean Architecture**, which emphasizes s
    ```
 
 This will scan the `MESSAGES` table and confirm its existence.
+
+6. **Run Tests**
+
+   To execute the automated tests, use the following command:
+
+   ```bash
+   npm run test
+   ```
+
+This will run all the tests in the project to ensure everything is working as expected.
+
+## Postman Collection 📬
+
+In the `postmanCollection` folder, there is a file available to test the local APIs. You can import this collection into Postman to easily interact with the API endpoints and verify their functionality.

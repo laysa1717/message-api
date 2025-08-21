@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "3ff018df-4488-4f5a-ac72-019b80819469",
+		"name": "message",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7274913"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/v1/message",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"oi tudobem teste como id\",\n    \"sender\": \"laysa.santana@gmail.com\",\n    \"status\": \"enviado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/message",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/v1/message/8763b5d2-3b75-46cc-978f-a4f0ddc50d96",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/v1/message/8763b5d2-3b75-46cc-978f-a4f0ddc50d96",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"message",
+						"8763b5d2-3b75-46cc-978f-a4f0ddc50d96"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/v1/message/senderMessage/laysa.santana@gmail.com",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"senderMessage\": \"laysa santana\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/senderMessage/get-message-sender",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"senderMessage",
+						"get-message-sender"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/v1/message/rangeDate/2025-08-11/2025-08-22",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"senderMessage\": \"laysa santana\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/senderMessage/get-message-sender",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"senderMessage",
+						"get-message-sender"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/v1/get-message-sender Copy 2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"senderMessage\": \"laysa santana\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/senderMessage/get-message-sender",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"senderMessage",
+						"get-message-sender"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
