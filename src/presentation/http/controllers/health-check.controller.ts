@@ -6,7 +6,7 @@ export class HealthCheckController {
   constructor(private readonly healthcheckusecase: HealthCheckUseCase) {}
 
   @Get()
-  getHello(): string {
+  getHello() {
     return this.healthcheckusecase.getHello();
   }
 }

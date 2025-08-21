@@ -9,7 +9,7 @@ async function bootstrap() {
 
   const corsOptions = {
     origin: process.env.ALLOWED_ORIGINS?.split(',') || '*', 
-    methods: process.env.ALLOWED_METHODS || 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: process.env.ALLOWED_METHODS || 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: process.env.ALLOW_CREDENTIALS === 'true',
   };
 

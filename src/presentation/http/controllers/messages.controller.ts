@@ -1,36 +1,35 @@
-import { Controller, Get, Post, Patch, Body, HttpCode, HttpStatus, UsePipes, Query } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, HttpCode, HttpStatus, UsePipes, Param } from '@nestjs/common';
 import { MessageUseCase } from '../../../application/usecase/messages.usecase';
-import { CreateMessageDto, GetMessageIdDto, GetMessageSenderDto} from "../dto/message.request.dto";
+import { CreateMessageDto} from "../dto/message.request.dto";
 import { RequiredFieldsValidationPipe } from '../pipes/required-fields.validation-pipe';
 
 
-@Controller('/v1')
+@Controller('/v1/message')
 export class MessageController {
   constructor(private readonly messageUsecase: MessageUseCase) {}
 
-  @Post('create-message')
+  @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UsePipes(new RequiredFieldsValidationPipe(['conteudo', 'remetente']))
+  @UsePipes(new RequiredFieldsValidationPipe(['content', 'sender']))
   async create(@Body() dto: CreateMessageDto){
    return await this.messageUsecase.createMessage({
-        conteudo: dto.conteudo,
-        remetente: dto.remetente,
+        content: dto.content,
+        sender: dto.sender,
         status: dto.status
     })
 
   }
 
-  @Get('get-message-id')
+  @Get('messageId/:messageId')
   @UsePipes(new RequiredFieldsValidationPipe(['messageId']))
-  getMessageId(@Body() dto: GetMessageIdDto) {
-    return this.messageUsecase.getMessageId(dto.messageId);
+  getMessageId(@Param('messageId') messageId: string) {
+    return this.messageUsecase.getMessageId(messageId);
   }
   
-  @Get('get-message-sender')
+  @Get('senderMessage/:senderMessage')
   @UsePipes(new RequiredFieldsValidationPipe(['senderMessage']))
-  getMessageSender(@Body() dto: GetMessageSenderDto) {
-    console.log(dto);
-    return this.messageUsecase.getMessagesBySender(dto.senderMessage);
+  getMessageSender(@Param('senderMessage') senderMessage: string) {
+    return this.messageUsecase.getMessagesBySender(senderMessage);
   }
 
   @Get()

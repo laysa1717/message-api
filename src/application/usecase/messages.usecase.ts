@@ -5,8 +5,8 @@ import { randomUUID } from "crypto";
 import { AlreadyExistsError, DomainError } from '../../domain/exceptions/errors';
 
 type Payload = {
-    conteudo: string;
-    remetente: string;
+    content: string;
+    sender: string;
     status: string;
   };
   
@@ -20,15 +20,15 @@ export class MessageUseCase {
         const messageId = randomUUID();
         const messagePayload = new Message(
             messageId,
-            payload.conteudo,
-            payload.remetente,
+            payload.content,
+            payload.sender,
             payload.status,
             date,
             date
         );
         try {
             await this.serviceMessage.create(messagePayload);
-            return { success: true, message: 'Mensagem criada com sucesso.', id: messageId, status: 201 };
+            return { success: true, message: 'Message created successfully', id: messageId, status: 201 };
         } catch (error) {
             if (error instanceof AlreadyExistsError) {
                 throw new HttpException({
@@ -39,7 +39,7 @@ export class MessageUseCase {
             }
             throw new HttpException({
                 statusCode: HttpStatus.BAD_REQUEST,
-                message: 'Falha ao criar a mensagem.',
+                message: 'Failed to create the message.',
                 details: { cause: error.message },
             }, HttpStatus.BAD_REQUEST);
         }
@@ -49,7 +49,7 @@ export class MessageUseCase {
         try {
             const result = await this.serviceMessage.getMessageId(messageId);
             if (result === null) {
-                throw new DomainError('Mensagem não encontrada.', { id: messageId });
+                throw new DomainError('Message not found.', { id: messageId });
             }
             return { success: true, data: result, status: 200 };
         } catch (error) {
@@ -62,7 +62,7 @@ export class MessageUseCase {
             }
             throw new HttpException({
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Erro interno do servidor.',
+                message: 'Internal server error.',
                 details: { cause: error.message },
             }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -72,7 +72,7 @@ export class MessageUseCase {
         try {
             const results = await this.serviceMessage.getMessageSender(senderMessage);
             if (results.length === 0) {
-                throw new DomainError('Nenhuma mensagem encontrada para o remetente.', { senderMessage });
+                throw new DomainError('No messages found for the sender.', { senderMessage });
             }
             return { success: true, data: results, status: 200 };
         } catch (error) {
@@ -85,7 +85,7 @@ export class MessageUseCase {
             }
             throw new HttpException({
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Erro interno do servidor.',
+                message: 'Internal server error.',
                 details: { cause: error.message },
             }, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -5,29 +5,15 @@ export class CreateMessageDto {
   @IsDefined()
   @IsString()
   @IsNotEmpty()
-  conteudo!: string;
+  content!: string;
 
   @IsDefined()
   @IsString()
   @IsNotEmpty()
-  remetente!: string;
+  sender!: string;
 
   @IsDefined()
   @IsString()
   @IsNotEmpty()
-  status: string;
-}
-
-export class GetMessageIdDto {
-  @IsDefined()
-  @IsString()
-  @IsNotEmpty()
-  messageId!: string;
-}
-
-export class GetMessageSenderDto {
-  @IsDefined()
-  @IsString()
-  @IsNotEmpty()
-  senderMessage!: string;
+  status!: string;
 }
