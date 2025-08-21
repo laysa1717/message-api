@@ -12,8 +12,4 @@ export class CreateMessageDto {
   @IsNotEmpty()
   sender!: string;
 
-  @IsDefined()
-  @IsString()
-  @IsNotEmpty()
-  status!: string;
 }

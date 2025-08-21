@@ -12,7 +12,6 @@ import {
         whitelist: true,
         transform: true,
         forbidUnknownValues: true,
-        // Se passar pelos "required", erros restantes (tipo, enum etc.) viram 400
         exceptionFactory: (errors: ValidationError[]) => {
           return new BadRequestException({
             statusCode: 400,
@@ -28,7 +27,6 @@ import {
     }
   
     async transform(value: any, metadata: ArgumentMetadata) {
-      // 1) Checagem de existência/“não-vazio”
       const missing = this.requiredFields.filter((f) => !this.hasNonEmpty(value, f));
       if (missing.length > 0) {
         throw new NotFoundException({
@@ -39,7 +37,6 @@ import {
         });
       }
   
-      // 2) Continua o fluxo normal de validação (DTO + class-validator)
       return super.transform(value, metadata);
     }
   
@@ -48,7 +45,7 @@ import {
       const v = obj[key];
       if (v === undefined || v === null) return false;
       if (typeof v === 'string') return v.trim().length > 0;
-      return true; // números, booleanos, objetos/arrays: consideramos "presente"
+      return true;
     }
   }
   

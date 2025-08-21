@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Patch, Body, HttpCode, HttpStatus, UsePipes, Param } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, HttpCode, HttpStatus, UsePipes, Param, Query, UseGuards } from '@nestjs/common';
 import { MessageUseCase } from '../../../application/usecase/messages.usecase';
 import { CreateMessageDto} from "../dto/message.request.dto";
 import { RequiredFieldsValidationPipe } from '../pipes/required-fields.validation-pipe';
+import { JwtAuthGuard } from '../../../auth/jwt-auth.guard';
 
 
+@UseGuards(JwtAuthGuard)
 @Controller('/v1/message')
 export class MessageController {
   constructor(private readonly messageUsecase: MessageUseCase) {}
@@ -15,30 +17,30 @@ export class MessageController {
    return await this.messageUsecase.createMessage({
         content: dto.content,
         sender: dto.sender,
-        status: dto.status
+        status: 'created'
     })
 
   }
 
-  @Get('messageId/:messageId')
-  @UsePipes(new RequiredFieldsValidationPipe(['messageId']))
+  @Get(':messageId')
   getMessageId(@Param('messageId') messageId: string) {
     return this.messageUsecase.getMessageId(messageId);
   }
   
   @Get('senderMessage/:senderMessage')
-  @UsePipes(new RequiredFieldsValidationPipe(['senderMessage']))
   getMessageSender(@Param('senderMessage') senderMessage: string) {
     return this.messageUsecase.getMessagesBySender(senderMessage);
   }
 
-  @Get()
-  getMessageRangeDate(): string {
-    return this.messageUsecase.getMessageRangeDate();
+  @Get('rangeDate')
+  getMessageRangeDate(
+    @Query('dateInit') dateInit: string,
+    @Query('dateEnd') dateEnd: string
+  ) {    
+    return this.messageUsecase.getMessageRangeDate(dateInit, dateEnd);
   }
 
   @Patch('messageId/:messageId/status/:status')
-  @UsePipes(new RequiredFieldsValidationPipe(['messageId', 'status']))
   updateStatusMessage(
     @Param('messageId') messageId: string,
     @Param('status') status: string

@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { MESSAGE_REPOSITORY, IMessageRepository } from '../../domain/repositories/message.repository';
 import { Message } from '../../domain/entities/message.entity';
-import { AlreadyExistsError, DomainError } from '../../domain/exceptions/errors';
 
 @Injectable()
 export class MessageService {
@@ -22,4 +21,8 @@ export class MessageService {
     async updateMessageStatus(messageId: string, status: string) {
         return await this.repository.updateStatus(messageId, status);
     }
-}
+
+    async getMessageRangeDate(dateInit: string, dateEnd: string) {
+        return await this.repository.findByRangeDate(dateInit, dateEnd);
+    }
+    }

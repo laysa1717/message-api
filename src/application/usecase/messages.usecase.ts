@@ -22,7 +22,7 @@ export class MessageUseCase {
             messageId,
             payload.content,
             payload.sender,
-            payload.status,
+            'created',
             date,
             date
         );
@@ -91,8 +91,20 @@ export class MessageUseCase {
         }
     }
 
-    getMessageRangeDate(){
-        return 'range date'
+    async getMessageRangeDate(dateInit: string, dateEnd: string) {
+        try {
+            const result = await this.serviceMessage.getMessageRangeDate(dateInit, dateEnd);
+            if (result.length === 0) {
+                throw new DomainError('No messages found for the range date.', {dateInit, dateEnd });
+            }
+            return { success: true, data: result, status: HttpStatus.OK };
+        } catch (error) {
+            throw new HttpException({
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Internal server error.',
+                details: { cause: error.message },
+            }, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     async updateStatusMessage(messageId: string, status: string) {

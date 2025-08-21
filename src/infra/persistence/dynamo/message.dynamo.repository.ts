@@ -1,4 +1,3 @@
-// src/infrastructure/persistence/dynamo/message.dynamo.repository.ts
 import { Inject, Injectable } from '@nestjs/common';
 import {
   DynamoDBDocumentClient,
@@ -9,7 +8,7 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { ConfigService } from '@nestjs/config';
 import { IMessageRepository } from '../../../domain/repositories/message.repository';
-import { Message, MessageStatus } from '../../../domain/entities/message.entity';
+import { Message} from '../../../domain/entities/message.entity';
 import { DYNAMO_DOCUMENT_CLIENT } from '../../dynamodb/tokens';
 
 @Injectable()
@@ -41,7 +40,7 @@ export class MessageDynamoRepository implements IMessageRepository {
     return (out.Item as Message) ?? null;
   }
 
-  async updateStatus(id: string, status: MessageStatus): Promise<void> {
+  async updateStatus(id: string, status: string): Promise<void> {
     await this.docClient.send(
       new UpdateCommand({
         TableName: this.table,
@@ -58,13 +57,25 @@ export class MessageDynamoRepository implements IMessageRepository {
   }
 
   async findBySender(senderMessage: string): Promise<Message[]> {
-    console.log(`Buscando mensagens para o remetente: ${senderMessage}`);
     const queryCommand = new QueryCommand({
         TableName: this.table,
-        IndexName: 'remetente-index',
-        KeyConditionExpression: 'remetente = :remetente',
-        ExpressionAttributeValues: { ':remetente': senderMessage },
+        IndexName: 'sender-index',
+        KeyConditionExpression: 'sender = :sender',
+        ExpressionAttributeValues: { ':sender': senderMessage },
     });
+    const out = await this.docClient.send(queryCommand);
+    return (out.Items as Message[]) ?? [];
+  }
+
+  async findByRangeDate(dateInit: string, dateEnd: string): Promise<Message[]> {
+    const queryCommand = new QueryCommand({
+        TableName: this.table,
+        IndexName: 'createdAt-index',
+        KeyConditionExpression: 'createdAt BETWEEN :dateInit AND :dateEnd',
+        ExpressionAttributeValues: { ':dateInit': dateInit, ':dateEnd': dateEnd },
+    });
+    console.log(queryCommand);
+    
     const out = await this.docClient.send(queryCommand);
     return (out.Items as Message[]) ?? [];
   }
