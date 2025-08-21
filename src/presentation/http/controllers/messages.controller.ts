@@ -1,11 +1,9 @@
-import { Controller, Get, Post, Patch, Body, HttpCode, HttpStatus, UsePipes, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, HttpCode, HttpStatus, UsePipes, Param, Query, UseGuards, Headers, UnauthorizedException } from '@nestjs/common';
 import { MessageUseCase } from '../../../application/usecase/messages.usecase';
 import { CreateMessageDto} from "../dto/message.request.dto";
 import { RequiredFieldsValidationPipe } from '../pipes/required-fields.validation-pipe';
-import { JwtAuthGuard } from '../../../auth/jwt-auth.guard';
 
 
-@UseGuards(JwtAuthGuard)
 @Controller('/v1/message')
 export class MessageController {
   constructor(private readonly messageUsecase: MessageUseCase) {}
@@ -13,13 +11,12 @@ export class MessageController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @UsePipes(new RequiredFieldsValidationPipe(['content', 'sender']))
-  async create(@Body() dto: CreateMessageDto){
-   return await this.messageUsecase.createMessage({
-        content: dto.content,
-        sender: dto.sender,
-        status: 'created'
-    })
-
+  async create(@Body() dto: CreateMessageDto) {
+    return await this.messageUsecase.createMessage({
+      content: dto.content,
+      sender: dto.sender,
+      status: 'created'
+    });
   }
 
   @Get(':messageId')

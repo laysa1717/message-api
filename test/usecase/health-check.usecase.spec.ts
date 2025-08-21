@@ -1,4 +1,4 @@
-import { HealthCheckUseCase } from '../src/application/usecase/health-check.usecase';
+import { HealthCheckUseCase } from '../../src/application/usecase/health-check.usecase';
 
 describe('HealthCheckUseCase', () => {
   let healthCheckUseCase: HealthCheckUseCase;

@@ -13,13 +13,14 @@ import { MessageService } from './infra/services/message.service';
 import { MESSAGE_REPOSITORY } from "./domain/repositories/message.repository";
 import { MessageDynamoRepository } from "./infra/persistence/dynamo/message.dynamo.repository";
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
-    DynamoModule
+    DynamoModule,
   ],
   controllers: [HealthCheckController, MessageController],
   providers: [
