@@ -5,6 +5,9 @@ import { AlreadyExistsError } from '../../src/domain/exceptions/errors';
 
 jest.mock('../../src/infra/services/message.service');
 
+jest.spyOn(console, 'log').mockImplementation(() => {});
+jest.spyOn(console, 'error').mockImplementation(() => {});
+
 describe('MessageUseCase', () => {
   let messageUseCase: MessageUseCase;
   let messageService: jest.Mocked<MessageService>;
