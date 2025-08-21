@@ -113,3 +113,14 @@ This will run all the tests in the project to ensure everything is working as ex
 ## Postman Collection 📬
 
 In the `postmanCollection` folder, there is a file available to test the local APIs. You can import this collection into Postman to easily interact with the API endpoints and verify their functionality.
+
+## Use of Artificial Intelligence 🤖
+
+In this project, artificial intelligence was utilized to enhance and streamline various aspects, including:
+
+- **Integration with DynamoDB**: AI assisted in setting up and configuring the integration with AWS's NoSQL database.
+- **Swagger**: AI was used to generate and improve the API documentation.
+- **Tests**: AI helped in creating comprehensive test cases to ensure the reliability of the application.
+- **Logs**: AI was leveraged to implement effective logging strategies for better traceability.
+- **README**: AI contributed to crafting a detailed and informative README file.
+- **Error Handling**: AI was used to implement robust error handling mechanisms throughout the application.
