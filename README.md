@@ -1,38 +1,130 @@
-# Message-api
-API RESTful desenvolvida em NestJS para gerenciamento de mensagens, incluindo envio e atualização de status.
+# Message API - Itaú 🧡
 
-## Fluxograma
-<img width="905" height="655" alt="image" src="https://github.com/user-attachments/assets/fdfcefd0-62ae-4143-8520-d9d9bc28cac0" />
-<img width="873" height="304" alt="image" src="https://github.com/user-attachments/assets/032e634c-cfc9-4d8b-a8c8-f1ab04c8cd4f" />
+## Description 📄
 
-## Project setup
+This microservice is a REST API for a messaging service where you can save messages, change their delivery status, and retrieve messages by ID, sender, and date range. The service integrates with DynamoDB (AWS's NoSQL database) to store information.
 
-```bash
-$ npm install
-```
+The main goal of the service is to adhere to NestJS best practices, allowing for code and architecture analysis. Although it's a simple project, the idea is to develop a service with clean code, enabling easy maintenance and scalability.
 
-## Compile and run the project
+In this microservice, you can analyze:
+- Best practices ✅
+- Code organization 📚
+- Use of DTOs and validations 🛡️
+- Scalable architecture 🏗️
 
-```bash
-# development
-$ npm run start
+Features include:
+- Integration with DynamoDB 🔗
+- Architectural design 🏛️
+- Automated tests 🧪
 
-# watch mode
-$ npm run start:dev
+## Prerequisites 📋
 
-# production mode
-$ npm run start:prod
-```
+- **Node.js**: Ensure you have Node.js version 19 or above installed.
+- **NestJS**: Use the version specified in the project's `package.json`.
+- **Docker**: Make sure Docker is installed and running on your machine.
+- **AWS CLI**: Install AWS CLI and configure it for local use with LocalStack.
 
-## Run tests
+## Architecture 🏛️
 
-```bash
-# unit tests
-$ npm run test
+The project follows the principles of **Clean Architecture**, which emphasizes separation of concerns and independence of frameworks, UI, and databases. This architecture helps in maintaining a scalable and testable codebase.
 
-# e2e tests
-$ npm run test:e2e
+<img width="980" height="760" alt="image" src="https://github.com/user-attachments/assets/baf1d3ce-5419-46d1-bba6-15d209ffb5b1" />
 
-# test coverage
-$ npm run test:cov
-```
+link draw.io: https://app.diagrams.net/#G1nVsfvjdkHs_2-cl797Q196kUzuJocyka#%7B%22pageId%22%3A%22BCZoA4h8Ex91nJFXoaPQ%22%7D
+
+## Setup ⚙️
+
+1. **Install Dependencies**
+
+   Run the following command to install the project dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. **Run the Project**
+
+   Start the project using the following command:
+
+   ```bash
+   npm run start
+   ```
+
+3. **Run Docker Compose**
+
+   Ensure Docker is running and execute the following command to start the services defined in `docker-compose.yaml`:
+
+   ```bash
+   docker-compose up
+   ```
+
+4. **Setup AWS DynamoDB Table**
+
+   After starting Docker, run the following AWS CLI commands to create the DynamoDB table:
+
+   ```bash
+   aws dynamodb create-table \
+       --table-name MESSAGES \
+       --attribute-definitions \
+           AttributeName=id,AttributeType=S \
+           AttributeName=sender,AttributeType=S \
+           AttributeName=createdAt,AttributeType=S \
+           AttributeName=somePartitionKey,AttributeType=S \
+       --key-schema AttributeName=id,KeyType=HASH \
+       --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
+       --global-secondary-indexes \
+           "[
+               {
+                   \"IndexName\": \"sender-index\",
+                   \"KeySchema\": [{\"AttributeName\":\"sender\",\"KeyType\":\"HASH\"}],
+                   \"Projection\": {\"ProjectionType\":\"ALL\"},
+                   \"ProvisionedThroughput\": {\"ReadCapacityUnits\":5,\"WriteCapacityUnits\":5}
+               },
+               {
+                   \"IndexName\": \"createdAt-index\",
+                   \"KeySchema\": [
+                       {\"AttributeName\":\"somePartitionKey\",\"KeyType\":\"HASH\"},
+                       {\"AttributeName\":\"createdAt\",\"KeyType\":\"RANGE\"}
+                   ],
+                   \"Projection\": {\"ProjectionType\":\"ALL\"},
+                   \"ProvisionedThroughput\": {\"ReadCapacityUnits\":5,\"WriteCapacityUnits\":5}
+               }
+           ]" \
+       --endpoint-url http://localhost:4566/ \
+       --profile localstack
+   ```
+
+5. **Confirm Table Creation**
+
+   Use the following command to confirm that the table was created successfully:
+
+   ```bash
+   aws dynamodb scan --table-name MESSAGES --endpoint-url http://localhost:4566/ --profile localstack
+   ```
+
+This will scan the `MESSAGES` table and confirm its existence.
+
+6. **Run Tests**
+
+   To execute the automated tests, use the following command:
+
+   ```bash
+   npm run test
+   ```
+
+This will run all the tests in the project to ensure everything is working as expected.
+
+## Postman Collection 📬
+
+In the `postmanCollection` folder, there is a file available to test the local APIs. You can import this collection into Postman to easily interact with the API endpoints and verify their functionality.
+
+## Use of Artificial Intelligence 🤖
+
+In this project, artificial intelligence was utilized to enhance and streamline various aspects, including:
+
+- **Integration with DynamoDB**: AI assisted in setting up and configuring the integration with AWS's NoSQL database.
+- **Swagger**: AI was used to generate and improve the API documentation.
+- **Tests**: AI helped in creating comprehensive test cases to ensure the reliability of the application.
+- **Logs**: AI was leveraged to implement effective logging strategies for better traceability.
+- **README**: AI contributed to crafting a detailed and informative README file.
+- **Error Handling**: AI was used to implement robust error handling mechanisms throughout the application.
